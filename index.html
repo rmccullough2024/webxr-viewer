@@ -82,12 +82,12 @@
     // Load the sound and play it when the audio engine is unlocked.
     (async () => {
         const audioEngine = await BABYLON.CreateAudioEngineAsync();
-        const gunshot = await BABYLON.CreateSoundAsync("gunshot", "https://playground.babylonjs.com/sounds/gunshot.wav");
+        const intro = await BABYLON.CreateSoundAsync("intro", "https://rmccullough2024.github.io/webxr-viewer/sounds/audioIntro.mp3");
 
         // Wait for the audio engine to unlock
         await audioEngine.unlockAsync();
 
-        gunshot.play();
+        intro.play();
     })();
 
     return scene;
