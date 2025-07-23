@@ -79,16 +79,18 @@
 
     BABYLON.AppendSceneAsync("https://playground.babylonjs.com/scenes/BoomBox.glb", scene);
 
-    // Load the sound and play it when the audio engine is unlocked.
-    (async () => {
-        const audioEngine = await BABYLON.CreateAudioEngineAsync();
-        const intro = await BABYLON.CreateSoundAsync("intro", "https://rmccullough2024.github.io/webxr-viewer/sounds/audioIntro.mp3");
+    // Load the sound and play it automatically once ready
+    const audioObject = new BABYLON.Sound("Intro", "https://rmccullough2024.github.io/webxr-viewer/sounds/audioIntro.mp3", scene, null, { loop: true, autoplay: true });
 
-        // Wait for the audio engine to unlock
-        await audioEngine.unlockAsync();
+    // Disable the default audio unlock button
+    BABYLON.Engine.audioEngineV2.useCustomUnlockedButton = true;
 
-        intro.play();
-    })();
+    // Unlock audio on first user interaction.
+    window.addEventListener('click', () => {
+        if(!BABYLON.Engine.audioEngineV2.unlocked){
+            BABYLON.Engine.audioEngineV2.unlock();
+        }
+    }, { once: true });
 
     return scene;
 };
